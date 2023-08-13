@@ -48,7 +48,8 @@ public class DialogCustom extends AppCompatDialogFragment {
                         System.out.println("------------ GO GO GO " + name_task.getText().toString());
 
                         if (name_task.getText().length() > 0) {
-                            tasks.add(name_task.getText().toString());
+                            // tasks.add(name_task.getText().toString());
+                            tasks = adapter.addElement(tasks, name_task.getText().toString());
                             adapter.setTasks(tasks);
                         }
 

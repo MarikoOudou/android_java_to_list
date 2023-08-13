@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 
 public class ListViewCustom extends BaseAdapter {
@@ -26,6 +25,18 @@ public class ListViewCustom extends BaseAdapter {
         this.context = context;
         this.tasks = tasks;
         inflater = LayoutInflater.from(context);
+    }
+
+    public ArrayList<String> addElement(ArrayList<String> arr, String element) {
+        String [] newArr = new String[arr.size() + 1];
+        newArr[0] = element;
+        for (int i = 0; i < arr.size(); i++) {
+            // newArr[i + 1] = arr[i];
+            newArr[i + 1] = arr.get(i);
+        }
+        tasks = new ArrayList<String>();
+        Collections.addAll(tasks, newArr);
+        return tasks;
     }
 
     @Override
@@ -47,6 +58,10 @@ public class ListViewCustom extends BaseAdapter {
     public void setTasks(ArrayList<String> tasks) {
         this.tasks = tasks;
         notifyDataSetChanged();
+    }
+
+    public ArrayList<String> getTasks () {
+        return tasks;
     }
 
     public void buttonSup (View view, int i) {
