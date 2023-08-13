@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:layout_margin="10px"
+        android:layout_marginStart="10px"
+        android:layout_marginLeft="10px"
+        android:layout_marginTop="10px"
+        android:layout_marginEnd="10px"
+        android:layout_marginRight="10px"
+        android:layout_marginBottom="10px"
+        android:clipToPadding="true"
+        android:orientation="horizontal"
+        android:padding="10px"
+        android:paddingStart="10px"
+        android:paddingLeft="10px"
+        android:paddingTop="10px"
+        android:paddingEnd="10px"
+        android:paddingRight="10px"
+        android:paddingBottom="10px">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="246dp"
+            android:layout_height="33dp"
+            android:text="To Do List"
+            android:textSize="25sp"
+            android:textStyle="bold|italic" />
+
+        <Button
+            android:id="@+id/add_task"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Ajouter" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10px"
+        android:paddingStart="10px"
+        android:paddingLeft="10px"
+        android:paddingTop="10px"
+        android:paddingEnd="10px"
+        android:paddingRight="10px"
+        android:paddingBottom="10px">
+
+    </ListView>
+
+</LinearLayout>
