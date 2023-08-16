@@ -2,11 +2,14 @@ package com.example.todolist;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
@@ -16,11 +19,17 @@ public class DialogCustom extends AppCompatDialogFragment {
 
     private EditText name_task;
     ListViewCustom adapter;
-    ArrayList<String> tasks;
+    ArrayList<Task> tasks;
 
-    public DialogCustom (ListViewCustom adapter, ArrayList<String> tasks) {
+    private MyDatabaseHelper db;
+    Context context;
+
+
+    public DialogCustom (ListViewCustom adapter, ArrayList<Task> tasks, Context context) {
         this.adapter = adapter;
         this.tasks = tasks;
+        this.context = context;
+        db = new MyDatabaseHelper(context);
     }
 
     @NonNull
@@ -49,8 +58,21 @@ public class DialogCustom extends AppCompatDialogFragment {
 
                         if (name_task.getText().length() > 0) {
                             // tasks.add(name_task.getText().toString());
-                            tasks = adapter.addElement(tasks, name_task.getText().toString());
-                            adapter.setTasks(tasks);
+                            //tasks = adapter.addElement(tasks, name_task.getText().toString());
+                            Task task_new = new Task();
+                            task_new.setTitle(name_task.getText().toString());
+                            db.openDatabase();
+                            long result = db.insertTask(task_new);
+
+                            if (result == -1) {
+                                Toast.makeText(context, "FAILED", Toast.LENGTH_SHORT);
+                            } else {
+                                Toast.makeText(context, "SUCCESSFULLY!", Toast.LENGTH_SHORT);
+                                tasks = (ArrayList<Task>) db.getAllTasks();
+                                adapter.setTasks(tasks);
+
+                            }
+
                         }
 
                     }

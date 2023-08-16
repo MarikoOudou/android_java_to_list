@@ -16,18 +16,23 @@ import java.util.Collections;
 public class ListViewCustom extends BaseAdapter {
 
     Context context;
-    ArrayList<String> tasks = new ArrayList<String>();
+    ArrayList<Task> tasks = new ArrayList<Task>();
 
 
     LayoutInflater inflater;
 
-    public  ListViewCustom(Context context,  ArrayList<String> tasks) {
+    private MyDatabaseHelper db;
+
+
+    public  ListViewCustom(Context context,  ArrayList<Task> tasks) {
         this.context = context;
         this.tasks = tasks;
         inflater = LayoutInflater.from(context);
+        db = new MyDatabaseHelper(context);
+
     }
 
-    public ArrayList<String> addElement(ArrayList<String> arr, String element) {
+    /*public ArrayList<String> addElement(ArrayList<String> arr, String element) {
         String [] newArr = new String[arr.size() + 1];
         newArr[0] = element;
         for (int i = 0; i < arr.size(); i++) {
@@ -37,7 +42,7 @@ public class ListViewCustom extends BaseAdapter {
         tasks = new ArrayList<String>();
         Collections.addAll(tasks, newArr);
         return tasks;
-    }
+    }*/
 
     @Override
     public int getCount() {
@@ -55,12 +60,12 @@ public class ListViewCustom extends BaseAdapter {
         return 0;
     }
 
-    public void setTasks(ArrayList<String> tasks) {
+    public void setTasks(ArrayList<Task> tasks) {
         this.tasks = tasks;
         notifyDataSetChanged();
     }
 
-    public ArrayList<String> getTasks () {
+    public ArrayList<Task> getTasks () {
         return tasks;
     }
 
@@ -70,9 +75,12 @@ public class ListViewCustom extends BaseAdapter {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                Toast.makeText(v.getContext(), tasks.get(i), Toast.LENGTH_SHORT).show();
-                tasks.remove(i);
-                notifyDataSetChanged();
+                Toast.makeText(v.getContext(), tasks.get(i).getTitle(), Toast.LENGTH_SHORT).show();
+                // tasks.remove(i);
+                db.openDatabase();
+                long result = db.deleteTask(tasks.get(i).getId());
+                tasks = (ArrayList<Task>) db.getAllTasks();
+                setTasks(tasks);
 
             }
         });
@@ -85,7 +93,7 @@ public class ListViewCustom extends BaseAdapter {
         view = inflater.inflate(R.layout.activity_custom_list_view, null);
         TextView textView = (TextView) view.findViewById(R.id.textViewCustum);
         buttonSup(view, i);
-        textView.setText(tasks.get(i));
+        textView.setText(tasks.get(i).getTitle());
         return view;
     }
 }

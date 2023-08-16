@@ -18,17 +18,30 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     ProgressDialog progressDoalog;
+    private MyDatabaseHelper db;
+
+    private List<Task> taskList;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         Button addTaskButton = (Button) findViewById(R.id.add_task);
-        ArrayList<String> tasks = new ArrayList<String>();
+        ArrayList<Task> tasks = new ArrayList<Task>();
 
-        progressDoalog = new ProgressDialog(MainActivity.this);
+        db = new MyDatabaseHelper(this);
+        db.openDatabase();
+        tasks = (ArrayList<Task>) db.getAllTasks();
+
+        /*for (int i = 0; i < taskList.size(); i++) {
+            tasks.add(taskList.get(i).getTitle());
+        }*/
+
+        /*progressDoalog = new ProgressDialog(MainActivity.this);
         progressDoalog.setMessage("Loading....");
-        progressDoalog.show();
+        progressDoalog.show();*/
 
 
         ListView list_view_tasks = (ListView) findViewById(R.id.list);
@@ -43,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         /*Create handle for the RetrofitInstance interface*/
-        ApiTask service = RetrofitClientInstance.getRetrofitInstance().create(ApiTask.class);
+        /*ApiTask service = RetrofitClientInstance.getRetrofitInstance().create(ApiTask.class);
         Call<List<Task>> call = service.getAllTask();
         call.enqueue(new Callback<List<Task>>() {
             @Override
@@ -57,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 System.out.println("VALEUR TO DO LIST : -------------- " + response.body().size());
-                // generateDataList(response.body());
             }
 
             @Override
@@ -66,12 +78,12 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
-        });
+        });*/
 
     }
 
-    private void dialogFieldAddTask(ListViewCustom adapter,  ArrayList<String> tasks ) {
-        DialogCustom dialogCustom = new DialogCustom(adapter, tasks);
+    private void dialogFieldAddTask(ListViewCustom adapter,  ArrayList<Task> tasks ) {
+        DialogCustom dialogCustom = new DialogCustom(adapter, tasks, this);
         dialogCustom.show(getSupportFragmentManager(), "Dialogue Custom");
     }
 }
